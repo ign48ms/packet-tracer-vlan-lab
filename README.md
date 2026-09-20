@@ -23,7 +23,9 @@ SW1 Fa0/1 is a trunk to R1 Gig0/0.
 - **VLANs and trunk:** A VLAN splits one physical switch into separate virtual networks, so Staff, IT and Guests are isolated from each other even though they share SW1. Ports Fa0/2 to Fa0/7 are access ports, each assigned to one VLAN. Fa0/1 is a trunk that carries all three VLANs to the router over a single cable, with each frame tagged using 802.1Q.
 - **Inter-VLAN routing:** Separate VLANs can't communicate without a router. R1 uses router-on-a-stick: the physical port Gig0/0 is split into three sub-interfaces (Gig0/0.10, .20 and .30). Each one uses `encapsulation dot1Q` with its VLAN number and holds the gateway IP for that VLAN.
 - **DHCP:** R1 is also the DHCP server, with one pool per VLAN. It automatically gives each PC an IP address, subnet mask and default gateway. The first ten addresses of each subnet are excluded, so the gateway address is never handed out.
+  ![DHCP bindings](dhcp-binding.png)
 - **ACL:** An extended ACL named `GUEST-IN` is applied inbound on Gig0/0.30. It denies traffic from the Guests network to the Staff and IT networks, then permits everything else, so guests can still reach their own gateway and each other.
+  ![ACL](acl.png)
 
 ## Tests
 
